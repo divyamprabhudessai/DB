@@ -42,6 +42,16 @@ router.get('/players',async(req,res)=>{
     }
 })
 
+router.post('/insert',async(req,res)=>{
+    try{
+        const newData =  await TestModel.create(req.body)
+        res.send('data insereted succesfully')
+    }
+    catch(err){
+        console.error(err)
+    }
+})
+
 
 
 module.exports = {router}
