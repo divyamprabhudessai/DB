@@ -47,7 +47,7 @@ router.get('/getPlayers/:id', (req, res) => {
     TestModel.findById(id)
         .then(response => {
             console.log(response);
-            res.send(response);
+            res.json(response);
         })
         .catch(err => {
             console.log(err);
