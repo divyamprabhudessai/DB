@@ -42,21 +42,24 @@ router.get('/players',async(req,res)=>{
     }
 })
 
-router.get('/getPlayers/:id', (req, res) => {
-    const id = req.params.id;
-    TestModel.findById(id)
-        .then(response => {
-            console.log(response);
-            res.json(response);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send('Internal Server Error');
-        });
+router.get('/getPlayers/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const response = await TestModel.findById(id); // Just pass id directly, no need for {_id:id}
+        console.log(response);
+        res.send(response);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Internal Server Error'); 
+    }
 });
 
-
-
+router.delete('/deletePlayers/:id',(req,res)=>{
+    const id = req.params.id
+    TestModel.findByIdAndDelete({_id:id})
+    .then(res=>res.json(res))
+    .catch(err=>res.json(err))
+})
 router.post('/insert',async(req,res)=>{
     try{
         const newData =  await TestModel.create(req.body)
