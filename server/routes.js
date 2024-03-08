@@ -54,12 +54,17 @@ router.get('/getPlayers/:id', async (req, res) => {
     }
 });
 
-router.delete('/deletePlayers/:id',(req,res)=>{
-    const id = req.params.id
-    TestModel.findByIdAndDelete({_id:id})
-    .then(res=>res.json(res))
-    .catch(err=>res.json(err))
-})
+router.delete('/deletePlayers/:id', (req, res) => {
+    const id = req.params.id;
+    TestModel.findByIdAndDelete(id)
+        .then(deletedPlayer => {
+            res.json(deletedPlayer);
+        })
+        .catch(err => {
+            res.status(500).json({ error: err.message });
+        });
+});
+
 router.post('/insert',async(req,res)=>{
     try{
         const newData =  await TestModel.create(req.body)
