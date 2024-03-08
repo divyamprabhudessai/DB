@@ -42,17 +42,19 @@ router.get('/players',async(req,res)=>{
     }
 })
 
-router.get('/getPlayers/:id', async (req, res) => {
-    try {
-        const id = req.params.id;
-        const response = await TestModel.findById({_id:id}); // Just pass id directly, no need for {_id:id}
-        console.log(response);
-        res.send(response);
-    } catch (err) {
-        console.log(err);
-        res.status(500).send('Internal Server Error'); // Handle errors properly
-    }
+router.get('/getPlayers/:id', (req, res) => {
+    const id = req.params.id;
+    TestModel.findById(id)
+        .then(response => {
+            console.log(response);
+            res.send(response);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        });
 });
+
 
 
 router.post('/insert',async(req,res)=>{
