@@ -45,14 +45,15 @@ router.get('/players',async(req,res)=>{
 router.get('/getPlayers/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        const response = await TestModel.findById(id); // Just pass id directly, no need for {_id:id}
+        const response = await TestModel.findById(id);
         console.log(response);
-        res.send(response);
+        res.json(response); // Sending the response as JSON
     } catch (err) {
         console.log(err);
-        res.status(500).send('Internal Server Error'); 
+        res.status(500).json({ error: 'Internal Server Error' }); // Sending error response as JSON
     }
 });
+
 
 router.delete('/deletePlayers/:id', (req, res) => {
     const id = req.params.id;
