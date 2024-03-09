@@ -45,14 +45,18 @@ router.get('/players',async(req,res)=>{
 router.get('/getPlayers/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        const response = await TestModel.findById(id);
-        console.log(response);
-        res.json(response); // Sending the response as JSON
+        const player = await TestModel.findById(_id:id);
+        if (!player) {
+            return res.status(404).json({ error: 'Player not found' });
+        }
+        console.log(player);
+        res.json(player);
     } catch (err) {
-        console.log(err);
-        res.status(500).json({ error: 'Internal Server Error' }); // Sending error response as JSON
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 
 
 router.delete('/deletePlayers/:id', (req, res) => {
