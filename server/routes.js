@@ -5,6 +5,11 @@ const {TestModel} = require('./schema.js')
 const {UserModel} = require('./userSchema.js')
 const Joi = require('joi')
 
+require('dotenv').config()
+
+const jwt = require('jsonwebtoken')
+
+
 const newPlayerSchema = Joi.object({
     name: Joi.string().required(),
     transferFee: Joi.string().required(),
@@ -155,5 +160,16 @@ router.post('/logout',(req,res)=>{
     res.status(200).json({message:'Logout succesful'})
 })
 
+
+router.post('/auth', async(req,res) => {
+    const {username,password} = req.body
+    const user = {
+        "username" : username,
+        "password" : password
+    }
+
+    const ACCESS_TOKEN = jwt.sign(user,process.env.ACCESS_TOKEN)
+    res.json({"acsessToken" : ACCESS_TOKEN})
+})
 
 module.exports = {router}
