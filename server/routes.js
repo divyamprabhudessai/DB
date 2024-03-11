@@ -2,6 +2,17 @@ const express = require('express');
 const router = express.Router()
 const {getConnectionStatus}=require('./db')
 const {TestModel} = require('./schema.js')
+const Joi = require('joi')
+
+const newPlayerSchema = Joi.object({
+    name: Joi.string().required(),
+    transferFee: Joi.string().required(),
+    year: Joi.number().required(),
+    from: Joi.string().required(),
+    to: Joi.string().required(),
+    img: Joi.string().required()
+});
+
 
 router.use(express.json());
 
