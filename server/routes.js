@@ -167,8 +167,14 @@ router.post('/auth', async(req,res) => {
         "username" : username,
         "password" : password
     }
+    const setCookie = (name,value,days)=>{
+        const expires = new Date();
+        expires.setTime(expires.getTime()+ days*24*60*60*1000)
+        document.cookie = name + '=' + value +' ' + expires.toUTCString();
+  }
 
     const ACCESS_TOKEN = jwt.sign(user,process.env.ACCESS_TOKEN)
+    setCookie('token',ACCESS_TOKEN,365)
     res.json({"acsessToken" : ACCESS_TOKEN})
 })
 
