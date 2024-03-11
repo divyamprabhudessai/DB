@@ -69,6 +69,11 @@ router.get('/getPlayers/:id', async (req, res) => {
 });
 
 router.put('/updatePlayers/:id',(req,res)=>{
+    const{value,error} = newPlayerSchema.validate(req.body)
+    if(error){
+        res.send(error.details)
+        console.log(error)
+    }
     const id = req.params.id
     TestModel.findByIdAndUpdate({_id:id},{
         name:req.body.name,
