@@ -108,8 +108,9 @@ router.post('/insert', async (req, res) => {
         res.send(newData); 
     } catch (err) {
         console.error(err);
-       
     }
+});
+
 
 
 module.exports = {router}
