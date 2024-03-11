@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router()
 const {getConnectionStatus}=require('./db')
 const {TestModel} = require('./schema.js')
+const {UserModel} = require('./userSchema.js')
 const Joi = require('joi')
 
 const newPlayerSchema = Joi.object({
@@ -117,6 +118,42 @@ router.post('/insert', async (req, res) => {
     }
 });
 
+router.post('/signup',async(req,res)=>{
+    try{
+        const user = await UserModel.create({
+            username:req.body.username,
+            password:req.body.password
+        })
+        res.send(user)
+    }catch(err){
+        console.error(err)
+    }
+  
+})
+router.post('/login', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        const user = await UserModel.findOne({ username, password });
+        
+        if (!user) {
+            return res.status(401).json({ error: 'Invalid username or password' });
+        }
+
+        
+        res.status(200).json({ user });
+        
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+router.post('/logout',(req,res)=>{
+    res.clearCookie('username')
+    res.clearCookie('password')
+
+    res.status(200).json({message:'Logout succesful'})
+})
 
 
 module.exports = {router}
