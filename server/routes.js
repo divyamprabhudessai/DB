@@ -57,6 +57,20 @@ router.get('/getPlayers/:id', async (req, res) => {
     }
 });
 
+router.put('/updatePlayers/:id',(req,res)=>{
+    const id = req.params.id
+    TestModel.findByIdAndUpdate({_id:id},{
+        name:req.body.name,
+        transferFee : req.body.transferFee,
+        year : req.body.year,
+        from : req.body.from,
+        to : req.body.to,
+        img : req.body.to
+    })
+    .then(res=>res.json(res))
+    .catch(err=>res.json(err))
+})
+
 
 
 router.delete('/deletePlayers/:id', (req, res) => {
@@ -69,6 +83,9 @@ router.delete('/deletePlayers/:id', (req, res) => {
             res.status(500).json({ error: err.message });
         });
 });
+
+
+
 
 router.post('/insert',async(req,res)=>{
     try{
