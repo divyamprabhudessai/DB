@@ -102,6 +102,7 @@ router.post('/insert', async (req, res) => {
         const { error, value } = newPlayerSchema.validate(req.body);
         if (error) {
             console.log(error);
+            res.send(error.details);
         }
 
         const newData = await TestModel.create(value);
