@@ -86,17 +86,19 @@ router.delete('/deletePlayers/:id', (req, res) => {
 
 
 
+router.post('/insert', async (req, res) => {
+    try {
+        const { error, value } = newPlayerSchema.validate(req.body);
+        if (error) {
+            console.log(error);
+        }
 
-router.post('/insert',async(req,res)=>{
-    try{
-        const newData =  await TestModel.create(req.body)
-        res.send(req.body)
+        const newData = await TestModel.create(value);
+        res.send(newData); 
+    } catch (err) {
+        console.error(err);
+       
     }
-    catch(err){
-        console.error(err)
-    }
-})
-
 
 
 module.exports = {router}
