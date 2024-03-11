@@ -45,7 +45,7 @@ router.get('/players',async(req,res)=>{
 router.get('/getPlayers/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        const player = await TestModel.findById(id);
+        const player = await TestModel.find({_id:id});
         if (!player) {
             return res.status(404).json({ error: 'Player not found' });
         }
