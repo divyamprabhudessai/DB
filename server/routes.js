@@ -16,7 +16,8 @@ const newPlayerSchema = Joi.object({
     year: Joi.number().required(),
     from: Joi.string().required(),
     to: Joi.string().required(),
-    img: Joi.string().required()
+    img: Joi.string().required(),
+    created_by:Joi.string().required()
 });
 
 
@@ -109,13 +110,14 @@ router.delete('/deletePlayers/:id', (req, res) => {
 
 
 router.post('/insert', async (req, res) => {
+    console.log(req.body)
     try {
         const { error, value } = newPlayerSchema.validate(req.body);
         if (error) {
             console.log(error);
             res.send(error.details);
         }
-
+        const loginUser = req.body.username
         const newData = await TestModel.create(value);
         res.send(newData); 
     } catch (err) {
