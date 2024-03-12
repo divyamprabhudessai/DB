@@ -6,7 +6,8 @@ const testSchema = mongoose.Schema({
     year: Number,
     from: String,
     to: String,
-    img: String
+    img: String,
+    created_by: String
 });
 const TestModel = mongoose.model("footycollections", testSchema);
 console.log(TestModel)
