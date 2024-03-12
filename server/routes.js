@@ -87,7 +87,7 @@ router.put('/updatePlayers/:id',(req,res)=>{
         year : req.body.year,
         from : req.body.from,
         to : req.body.to,
-        img : req.body.to
+        img : req.body.img
     })
     .then(res=>res.json(res))
     .catch(err=>res.json(err))
@@ -162,20 +162,19 @@ router.post('/logout',(req,res)=>{
 
 
 router.post('/auth', async(req,res) => {
-    const {username,password} = req.body
+    try{const {username,password} = req.body
     const user = {
         "username" : username,
         "password" : password
     }
-    const setCookie = (name,value,days)=>{
-        const expires = new Date();
-        expires.setTime(expires.getTime()+ days*24*60*60*1000)
-        document.cookie = name + '=' + value +' ' + expires.toUTCString();
-  }
-
     const ACCESS_TOKEN = jwt.sign(user,process.env.ACCESS_TOKEN)
-    setCookie('token',ACCESS_TOKEN,365)
+    res.cookie('token',ACCESS_TOKEN,{maxAge:365*24*60*60*1000})
     res.json({"acsessToken" : ACCESS_TOKEN})
+}catch(err){
+    console.error(err)
+    res.status(500).json({error:'Internal Server Error'})
+}
 })
+
 
 module.exports = {router}
