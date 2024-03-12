@@ -11,13 +11,13 @@ const jwt = require('jsonwebtoken')
 
 
 const newPlayerSchema = Joi.object({
-    name: Joi.string().required(),
-    transferFee: Joi.string().required(),
-    year: Joi.number().required(),
-    from: Joi.string().required(),
-    to: Joi.string().required(),
-    img: Joi.string().required(),
-    created_by:Joi.string()
+    "name": Joi.string().required(),
+    "transferFee": Joi.string().required(),
+    "year": Joi.number().required(),
+    "from": Joi.string().required(),
+    "to": Joi.string().required(),
+    "img": Joi.string().required(),
+    "created_by":Joi.string()
 });
 
 
@@ -75,6 +75,8 @@ router.get('/getPlayers/:id', async (req, res) => {
     }
 });
 
+router.get
+
 router.put('/updatePlayers/:id',(req,res)=>{
     const{value,error} = newPlayerSchema.validate(req.body)
     if(error){
@@ -110,17 +112,20 @@ router.delete('/deletePlayers/:id', (req, res) => {
 
 
 router.post('/insert', async (req, res) => {
+    console.log(req.body)
     try {
         const { error, value } = newPlayerSchema.validate(req.body);
         if (error) {
             console.log(error);
             res.send(error.details);
         }
-        const loginUser = req.body.username
-        const newData = await TestModel.create(value);
-        res.send(newData); 
+        
+           
+            const newData = await TestModel.create(req.body);
+            res.send(newData); 
+        
     } catch (err) {
-        console.error(err);
+        console.log(err);
     }
 });
 
